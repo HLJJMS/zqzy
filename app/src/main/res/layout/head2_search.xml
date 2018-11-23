@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="horizontal">
+
+    <com.example.administrator.myapplication.base.DropDownView
+        android:id="@+id/drop_down_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/shape_background_custom"
+        android:drawableRight="@mipmap/pic_confirm_dropdown"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="请选择类别"
+        android:textColor="#4c4c4c"
+        android:textColorHint="#55000000"
+        android:textSize="10sp" />
+
+    <com.example.administrator.myapplication.base.DropDownPhotoView
+        android:id="@+id/drop_down_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/shape_background_custom"
+        android:drawableRight="@mipmap/pic_confirm_dropdown"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="请选择名字"
+        android:textColor="#4c4c4c"
+        android:textColorHint="#55000000"
+        android:textSize="10sp" />
+    />
+</LinearLayout>
