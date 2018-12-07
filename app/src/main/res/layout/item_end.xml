@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/end_one"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="2"
+        android:background="@color/gray" />
+
+    <TextView
+        android:id="@+id/end_two"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="以上是全部数据" />
+
+    <TextView
+        android:id="@+id/end_three"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="2"
+        android:background="@color/gray" />
+</LinearLayout>

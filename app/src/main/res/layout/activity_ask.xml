@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="com.example.administrator.zqzy.activity.AskActivity">
+
+    <include layout="@layout/head" />
+
+    <com.example.administrator.zqzy.base.DropDownViewNoDefault
+        android:id="@+id/drop_down_type"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_background_custom"
+        android:drawableRight="@mipmap/pic_confirm_dropdown"
+        android:gravity="center"
+        android:padding="3dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="请选择咨询类别"
+        android:textColor="#4c4c4c"
+        android:textColorHint="#55000000"
+        android:textSize="10sp" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="咨询内容" />
+
+    <EditText
+        android:gravity="left|top"
+        android:layout_marginTop="5dp"
+        android:padding="2dp"
+        android:hint="请输入您要咨询的内容"
+        android:id="@+id/ask_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="5"
+        android:background="@drawable/ring_stroke" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="姓名" />
+
+    <EditText
+        android:padding="2dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ring_stroke"
+        android:singleLine="true" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="电话" />
+
+    <EditText
+        android:padding="2dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ring_stroke"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ring_solid"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="提交"
+        android:textColor="@color/white" />
+</LinearLayout>

@@ -4,7 +4,7 @@
     android:layout_height="30dp"
     android:orientation="horizontal">
 
-    <com.example.administrator.myapplication.base.DropDownView
+    <com.example.administrator.zqzy.base.DropDownView
         android:id="@+id/drop_down_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:textColorHint="#55000000"
         android:textSize="10sp" />
 
-    <com.example.administrator.myapplication.base.DropDownPhotoView
+    <com.example.administrator.zqzy.base.DropDownPhotoView
         android:id="@+id/drop_down_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
