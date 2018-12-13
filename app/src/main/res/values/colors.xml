@@ -8,4 +8,6 @@
     <color name="gray">#dddddd</color>
     <color name="darkGray">#aaaaaa</color>
     <color name="red">#ff0000</color>
+    <color name="green">#00cc00</color>
+
 </resources>

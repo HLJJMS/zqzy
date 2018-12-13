@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -22,14 +22,20 @@ import com.example.administrator.zqzy.adpter.SelectClassDetailTeacherAdapter;
 import com.example.administrator.zqzy.bean.SelectClassListBean;
 import com.example.administrator.zqzy.bean.SelectClassdetailBean;
 import com.example.administrator.zqzy.bean.SelectTeacherDetailBean;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.ByteBuffer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 /*选课详情界面*/
 public class SelectClassDetailActivity extends AppCompatActivity implements ISelectClassDetailView {
 
@@ -61,10 +67,12 @@ public class SelectClassDetailActivity extends AppCompatActivity implements ISel
     @BindView(R.id.ok)
     TextView ok;
     private SelectClassDetailPresenter presenter;
-    private String classDetailString;
+    private String classDetailString, code, titleTxt, descriptionTxt;
     private SelectClassDetailListAdapter listAdapter;
     private SelectClassDetailTeacherAdapter teacherAdapter;
     private IWXAPI api;
+    private ByteBuffer byteBuffer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +84,8 @@ public class SelectClassDetailActivity extends AppCompatActivity implements ISel
         aboutAdapter();
         getData();
     }
-//        教师,课程数量列表
+
+    //      教师,课程数量列表
     private void aboutAdapter() {
         listAdapter = new SelectClassDetailListAdapter(context);
         recycler.setAdapter(listAdapter);
@@ -89,13 +98,15 @@ public class SelectClassDetailActivity extends AppCompatActivity implements ISel
         detail.setTextColor(getResources().getColor(R.color.black));
         menu.setTextColor(getResources().getColor(R.color.colorAccent));
     }
-//接受列表传过来的数据并发送请求
+
+    //接受列表传过来的数据并发送请求
     private void getData() {
         Intent intent = getIntent();
+        code = intent.getStringExtra("code");
         presenter.getAllData(intent.getStringExtra("code"));
     }
 
-    @OnClick({R.id.back, R.id.menu, R.id.detail ,R.id.ok,R.id.share})
+    @OnClick({R.id.back, R.id.menu, R.id.detail, R.id.ok, R.id.share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -114,8 +125,7 @@ public class SelectClassDetailActivity extends AppCompatActivity implements ISel
                 menu.setTextColor(getResources().getColor(R.color.black));
                 break;
             case R.id.ok:
-            goShop();
-
+                goShop();
                 break;
             case R.id.share:
                 shareFunction();
@@ -124,33 +134,38 @@ public class SelectClassDetailActivity extends AppCompatActivity implements ISel
     }
 
     private void goShop() {
-//        presenter.
+
     }
 
     private void shareFunction() {
-//        WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
-//        miniProgramObj.webpageUrl = "http://www.qq.com"; // 兼容低版本的网页链接
-//        miniProgramObj.miniprogramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;// 正式版:0，测试版:1，体验版:2
-//        miniProgramObj.userName = "gh_d43f693ca31f";     // 小程序原始id
-//        miniProgramObj.path = "/pages/media";            //小程序页面路径
-//        WXMediaMessage msg = new WXMediaMessage(miniProgramObj);
-//        msg.title = "小程序消息Title";                    // 小程序消息title
-//        msg.description = "小程序消息Desc";               // 小程序消息desc
-////        msg.thumbData = getThumb();                      // 小程序消息封面图片，小于128k
-//        SendMessageToWX.Req req = new SendMessageToWX.Req();
-//        req.transaction = buildTransaction("webpage");
-//        req.message = msg;
-//        req.scene = SendMessageToWX.Req.WXSceneSession;  // 目前支持会话
-//        api.sendReq(req);
+        api = WXAPIFactory.createWXAPI(context, AppConfig.WXAppId, true);
+        api.registerApp(AppConfig.WXAppId);
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "http://web.yunerpoa.com/ZQZYPublicNumber/scheInfo/scheInfo.html?code=" + code;
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = titleTxt;
+        msg.description = descriptionTxt.substring(0,16);
+        //构造一个Req
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneSession;
+        req.transaction = "share";
+        //调用api接口，发送数据到微信
+        boolean a = api.sendReq(req);
+        Log.e("结果",String.valueOf(a));
     }
+
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
+
     @Override
     public void showToast(String s) {
         Toast.makeText(context, s, Toast.LENGTH_LONG).show();
     }
-//    数据装在
+
+    //    数据装在
     @Override
     public void setData(SelectClassdetailBean selectClassdetailBean, SelectClassListBean selectClassListBean, SelectTeacherDetailBean selectTeacherDetailBean) {
         Glide.with(context).load(AppConfig.ImgUrl + selectClassdetailBean.getOrderMain().get(0).getF0020()).into(img);
@@ -159,11 +174,18 @@ public class SelectClassDetailActivity extends AppCompatActivity implements ISel
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        classDetail.loadData(Html.fromHtml(classDetailString).toString(), "text/html;charset=utf-8", "UTF-8");
+        titleTxt = selectClassdetailBean.getOrderMain().get(0).getF0003();
+        descriptionTxt = StripHT(classDetailString);
+        classDetail.loadDataWithBaseURL(null, classDetailString, "text/html;charset=utf-8", "UTF-8", null);
         man.setText(selectClassdetailBean.getOrderMain().get(0).getF0024());
         place.setText(selectClassdetailBean.getOrderMain().get(0).getF0025());
         listAdapter.setData(selectClassListBean.getOrderDetail());
         teacherAdapter.setdata(selectTeacherDetailBean.getMyDynamicData());
     }
 
+    private String StripHT(String strHtml) {
+        String txtcontent = strHtml.replaceAll("</?[^>]+>", ""); //剔出<html>的标签
+        txtcontent = txtcontent.replaceAll("<a>\\s*|\t|\r|\n</a>", "");//去除字符串中的空格,回车,换行符,制表符
+        return txtcontent;
+    }
 }

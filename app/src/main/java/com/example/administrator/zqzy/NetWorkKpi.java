@@ -45,4 +45,8 @@ public class NetWorkKpi {
     public final static String GetKnowledgeStoreData(String code) {
         return new StringBuffer().append(AppConfig.Service).append("GetKnowledgeStoreData?code=").append(code).toString();
     }
+    //  账号密码登录
+    public final static String Login(String number,String passWord) {
+        return new StringBuffer().append(AppConfig.Service).append("CommonList?a=T50000&b=1|5&d=2::").append(number).append("|3::").append(passWord).toString();
+    }
 }
